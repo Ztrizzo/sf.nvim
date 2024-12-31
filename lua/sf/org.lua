@@ -8,6 +8,10 @@ function Org.fetch_org_list()
   H.fetch_org_list()
 end
 
+function Org.get_current_target_org()
+  H.get_current_target_org()
+end
+
 function Org.set_target_org()
   H.set_target_org()
 end
@@ -122,6 +126,20 @@ H.orgs = {}
 
 H.clean_org_cache = function()
   H.orgs = {}
+end
+
+H.get_current_target_org = function()
+  vim.system(
+    {"sf", "config", "get", "target-org", "--json"},
+    { stdout = function(_, data)
+      if data ~= nil then
+        local org = vim.json.decode(data)
+        local target_org = org.result[1].value
+        U.target_org = target_org
+      end
+    end
+    }
+  )
 end
 
 H.set_target_org = function()
