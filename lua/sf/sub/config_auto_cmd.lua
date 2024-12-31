@@ -67,6 +67,7 @@ M.set_auto_cmd_and_try_set_default_keys = function()
       callback = function()
         if vim.fn.executable("sf") == 1 then
           require("sf").fetch_org_list()
+          require("sf.org").get_current_target_org()
         end
       end,
     })
