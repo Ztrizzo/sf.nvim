@@ -6,7 +6,7 @@
 <h1 align="center">Sf.nvim</h1>
 <p align="center">📸 A Neovim plugin for Salesforce development</p>
 
-# 📖 Table of Content
+# 📖 Table of Contents
 
 - [Features](#-features)
 - [Intro video](#-intro-video-6min)
@@ -14,12 +14,12 @@
 - [Installation](#%EF%B8%8F--installation)
 - [Configuration](#%EF%B8%8F-configuration)
 - [Keys](#-keys)
-- [Full doc](#-full-document)
 - [List/retrieve metadata](#-feature-listretrieve-metadata-and-metadata-types)
 - [Apex test](#apex-test)
 - [Display target org and code coverage](#-display-target_org-and-code-coverage)
-- [Integrated term](#%EF%B8%8F-integrated-terminal)
+- [Terminal](#%EF%B8%8F-terminal)
 - [Apex jump](#-enhanced-jump-to-definition-apex)
+- [Read More](#-read-more)
 - [Contributions](#-contributions)
 
 ## ✨ Features
@@ -31,7 +31,7 @@ sf.nvim`, which is auto-generated from those comments.
 All the features are categorized as:
 
 - 🔥 Apex/Lwc/Aura: push, retrieve, create
-- 💻 Integrated term
+- 💻 Integrated term or overseer.nvim
 - 😎 File diff: local v.s. org
 - 🤩 Target-org icon
 - 👏 Org Metadata browsing
@@ -61,6 +61,8 @@ In addition to the features, user commands and default hotkeys are also supplied
 - 🔍 (Optional) fzf-lua plugin for executing `:SF md list` and `SFListMdTypeToRetrieve` (Why not
   telescope.nvim? Because its UI is slow)
 - 🔍 (Optional) [universal ctags](https://github.com/universal-ctags/ctags) is used to enhance [Apex jump](#-enhanced-jump-to-definition-apex)
+- 🔍 (Optional) [overseer.nvim](https://github.com/stevearc/overseer.nvim) if you'd like to use the overseer integration
+
 
 ![Image 019](https://github.com/user-attachments/assets/aad0ac11-f980-423b-8332-a2b4359fb4ae)
 
@@ -134,6 +136,11 @@ require('sf').setup({
     "LightningComponentBundle"
   },
 
+  -- The terminal strategy to use for running tasks.
+  -- "integrated" - use the integrated terminal.
+  -- "overseer" - use overseer.nvim to run terminal tasks. (requires overseer.nvim as a dependency).
+  terminal = "integrated",
+
   -- Configuration for the integrated terminal
   term_config = {
     blend = 10,     -- background transparency: 0 is fully opaque; 100 is fully transparent
@@ -145,7 +152,9 @@ require('sf').setup({
     },
   },
 
-  -- the sf project metadata folder, update this in case you diverged from the default sf folder structure
+  -- By default, the plugin uses the default package from sfdx-project.json.
+  -- If no packages are found, falls back to the value specified in 'default_dir'. If multiple packages are available,
+  -- you can override the current working package using |Sf.set_current_package|
   default_dir = '/force-app/main/default/',
 
   -- the folder this plugin uses to store intermediate data. It's under the sf project root directory.
@@ -235,7 +244,7 @@ In case you decide to go with the default hotkeys:
 | `<leader>sq`     | run_highlighted_soql |Deault key is only enabled in visual model. Highlight selected text will be run as SOQL in the term|
 |`\s`|toggle_sign |Show/hide line coverage sign icon|
 |`]v`|uncovered_jump_forward |jump to next test uncovered hunk|
-|`[v`|`uncovered_jump_backward |jump to last test uncovered hunk|
+|`[v`|uncovered_jump_backward |jump to last test uncovered hunk|
 
 All keys are listed in `:h sf.nvim` or [help.txt file](https://github.com/xixiaofinland/sf.nvim/blob/dev/doc/sf.txt).
 
@@ -256,12 +265,6 @@ as your key:
 ```lua
 vim.keymap.set('n', '<leader>sk', require('sf').run('ls -la'), { noremap = true, silent = true, desc = 'run ls -la in the terminal' })
 ```
-<br>
-
-## 📚 Full Document
-
-Checking all features via `:h sf.nvim` or [help.txt file](https://github.com/xixiaofinland/sf.nvim/blob/dev/doc/sf.txt).
-
 <br>
 
 ## 🚀 Feature: List/retrieve metadata and metadata types
@@ -364,7 +367,9 @@ You can
 
 <br>
 
-## 🖥️ Integrated terminal
+## 🖥️ Terminal
+
+### Integrated terminal
 
 ![Image 022](https://github.com/user-attachments/assets/bd61e9fc-fa0d-4782-8f2d-68e90dcb0d10)
 
@@ -378,6 +383,31 @@ The integrated terminal is designed to
 
 You can pass any shell command into `run()` method to execute it in the integrated
 terminal. For instance, `require('sf').run('ls -la')`.
+
+### Overseer.nvim
+
+As an alternative to the integrated terminal, [overseer.nvim](https://github.com/stevearc/overseer.nvim) can be used to execute terminal commands.
+
+Once enabled
+
+- commands executed by Sf.nvim will be created in overseer as tasks
+- the overseer task list can be show or hidden via `:OverseerToggle`
+
+To enable, ensure overseer.nvim is a dependency and set the appropriate flag in your configuration:
+
+```
+return {
+    'xixiaofinland/sf.nvim',
+    dependencies = {
+        'nvim-treesitter/nvim-treesitter',
+        'stevearc/overseer.nvim',
+        "ibhagwan/fzf-lua",
+    },
+    config = function()
+        require('sf').setup({ terminal = 'overseer' })
+    end
+}
+```
 
 <br>
 
@@ -405,6 +435,12 @@ plugin.
 
 <br>
 
+## 📚 Read More
+
+Full documentation can be accessed via `:h sf.nvim` or [help.txt file](https://github.com/xixiaofinland/sf.nvim/blob/dev/doc/sf.txt).
+
+<br>
+
 ## 🏆 Contributions
 
 Please create an issue to discuss your PR before submitting it. This ensures
@@ -423,16 +459,6 @@ The `help.txt` file is auto-generated from the comments with the `---` suffix
 before each function in [init.lua](https://github.com/xixiaofinland/sf.nvim/blob/dev/lua/sf/init.lua). The plugin
 uses `mini.doc` to automatically generate `help.txt` from these `---` suffixed comments. Therefore,
 add your doc content in `init.lua` without touching `help.txt` is sufficient.
-
-<br>
-
-### 🤝 Contributors
-
-Thanks to the following people for contributing to this project:
-
-- [@ognjen-vuceljic](https://github.com/ognjen-vuceljic)
-- ![GitHub Profile Image](https://github.com/waltonzt.png?size=50) [@waltonzt](https://github.com/waltonzt)
-- ![GitHub Profile Image](https://github.com/FedeAbella.png?size=50) [@FedeAbella](https://github.com/FedeAbella)
 
 <br>
 

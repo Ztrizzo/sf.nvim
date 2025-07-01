@@ -1,5 +1,51 @@
 # Changelog
 
+## [1.11.1](https://github.com/xixiaofinland/sf.nvim/compare/v1.11.0...v1.11.1) (2025-06-15)
+
+
+### Bug Fixes
+
+* overseer URL ([70d35b0](https://github.com/xixiaofinland/sf.nvim/commit/70d35b0931208882cc3a2d59ee9eacdee9af1837))
+* replace Full Docs with Read More and move to bottom ([1e710a2](https://github.com/xixiaofinland/sf.nvim/commit/1e710a294972eb7c65fda34454626791b540d67e))
+* stray ` in table ([8b7b835](https://github.com/xixiaofinland/sf.nvim/commit/8b7b835da2f215629c47b030b69a7b1ab45cb423))
+* typo Table of Contents ([71adff5](https://github.com/xixiaofinland/sf.nvim/commit/71adff540fb071b892adef6a8dbf1cbdad4e3e6a))
+
+## [1.11.0](https://github.com/xixiaofinland/sf.nvim/compare/v1.10.0...v1.11.0) (2025-05-12)
+
+
+### Features
+
+* read default package directory from sfdx-project.json ([9568f3f](https://github.com/xixiaofinland/sf.nvim/commit/9568f3f4507477dbe7ccd42215cf9fea4eb67272))
+
+## [1.10.0](https://github.com/xixiaofinland/sf.nvim/compare/v1.9.2...v1.10.0) (2025-04-14)
+
+
+### Features
+
+* Add overseer.nvim integration ([b7201f9](https://github.com/xixiaofinland/sf.nvim/commit/b7201f9640137702f7232ddadc579cbc923370fe))
+
+
+### Bug Fixes
+
+* ts query capture update need in v0.11 [#281](https://github.com/xixiaofinland/sf.nvim/issues/281) ([cc7947e](https://github.com/xixiaofinland/sf.nvim/commit/cc7947eeacfc005b25c6adef58088b42d613dd68))
+
+## [1.9.2](https://github.com/xixiaofinland/sf.nvim/compare/v1.9.1...v1.9.2) (2025-03-25)
+
+
+### Bug Fixes
+
+* the test_result.json not found message shows in first time open cls ([16282d4](https://github.com/xixiaofinland/sf.nvim/commit/16282d4981e1443bc25bd521cd9339ea9369d627))
+
+## [1.9.1](https://github.com/xixiaofinland/sf.nvim/compare/v1.9.0...v1.9.1) (2025-02-03)
+
+
+### Bug Fixes
+
+* fix quotes and expand issue on highlight soql ([37b83c9](https://github.com/xixiaofinland/sf.nvim/commit/37b83c90fb1c8800511a3c17cadde84dbb47088c))
+* improve fetch org list performance ([eab38b9](https://github.com/xixiaofinland/sf.nvim/commit/eab38b921ab6e4ae22a3ecff9d645239384bbeea))
+* missing plugin parent dir causes unrecoverable failure ([ab92f64](https://github.com/xixiaofinland/sf.nvim/commit/ab92f647c26833ccabc3415fd2259da70f4281eb))
+* wrap target org in quotes for aliases with spaces ([38d625c](https://github.com/xixiaofinland/sf.nvim/commit/38d625c72f44fbba86ec8b93c2093911822fa127))
+
 ## [1.9.0](https://github.com/xixiaofinland/sf.nvim/compare/v1.8.0...v1.9.0) (2024-11-16)
 
 

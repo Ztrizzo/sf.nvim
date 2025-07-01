@@ -52,7 +52,13 @@ local default_cfg = {
     clear_env = false,
   },
 
-  -- the sf project metadata folder, update this in case you diverged from the default sf folder structure
+  -- The terminal strategy to use for running tasks.
+  -- "integrated" - use the integrated terminal.
+  -- "overseer" - use overseer.nvim to run terminal tasks. requires overseer.nvim as a dependency.
+  terminal = "integrated",
+
+  -- the fallback sf project metadata folder, update this in case you diverged from the default sf folder structure and you
+  -- don't have a default package specified in sfdx-project.json.
   default_dir = "/force-app/main/default/",
 
   -- the folder this plugin uses to store intermediate data. It's under the sf project root directory.
@@ -95,8 +101,18 @@ local init = function()
 
   AutoCmd.set_auto_cmd_and_try_set_default_keys()
 
-  -- Initiate the raw term
-  require("sf.term").setup(vim.g.sf.term_config)
+  -- Initiate the term
+  local term_type = vim.g.sf.terminal or "integrated"
+  if term_type == "overseer" and not pcall(require, "overseer") then
+    -- overseer not found, fall back to integrated terminal
+    term_type = "integrated"
+  end
+
+  if term_type == "overseer" then
+    require("sf.term").overseer_setup(vim.g.sf.overseer)
+  else
+    require("sf.term").integrated_setup(vim.g.sf.term_config)
+  end
 
   require("sf.test").setup_sign()
 end
